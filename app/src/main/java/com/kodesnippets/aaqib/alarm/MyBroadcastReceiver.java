@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.util.Log;
 import android.widget.Toast;
 
 
@@ -20,5 +21,6 @@ public class MyBroadcastReceiver extends BroadcastReceiver {
         mp = MediaPlayer.create(context, R.raw.alrm);
         mp.start();
         Toast.makeText(context, "Alarm...."+tempModel.getMessage(), Toast.LENGTH_LONG).show();
+        Log.d("Test","Chalbhae");
     }
 }

@@ -65,22 +65,33 @@ public class MainActivity extends Activity {
         EditText text = (EditText) findViewById(R.id.time);
         int i = Integer.parseInt(text.getText().toString());
         Intent intent = new Intent(this, MyBroadcastReceiver.class);
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.HOUR, 10);
-        calendar.set(Calendar.MINUTE, 40);
+
         TempModel tempModel = new TempModel();
         tempModel.setMessage("Nothing Special");
         tempModel.setName("Moosa");
         tempModel.setTime("1234123");
         intent.putExtra(INTENT_NAME, tempModel);
-        pendingIntent = PendingIntent.getBroadcast(
-                this.getApplicationContext(), 234324243, intent, 0);
+     //   pendingIntent = PendingIntent.getBroadcast(
+     //           this.getApplicationContext(), 234324243, intent, 0);
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         // alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis()
         //         + (i * 1000), pendingIntent);
-        Toast.makeText(this, "Alarm set in " + i + " seconds", Toast.LENGTH_LONG).show();
+        Calendar cal = Calendar.getInstance();
 
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (i * 1000), 60000, pendingIntent);
+        cal.setTimeInMillis(System.currentTimeMillis());
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
+        int min = cal.get(Calendar.MINUTE);
+        int year = cal.get(Calendar.YEAR);
+        int month = cal.get(Calendar.MONTH);
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+
+        min++;
+
+        cal.set(year, month, day, hour, min);
+        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, 0);
+        Toast.makeText(this, "Alarm set in " + i + " seconds", Toast.LENGTH_LONG).show();
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+//        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + (i * 1000), 60000, pendingIntent);
 
     }
 
